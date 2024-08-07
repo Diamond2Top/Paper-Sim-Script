@@ -1,0 +1,76 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local RunService = game:GetService("RunService")
+local speaker = game:GetService("Players").LocalPlayer
+local chr = speaker.Character
+local Window = OrionLib:MakeWindow({Name = "Paper Sim Script - Weituisi", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+local tpwalking = false
+local tpwalkspeed = 0
+
+local Tab = Window:MakeTab({
+Name = "Speed",
+Icon = "rbxassetid://4483345998",
+PremiumOnly = false
+})
+
+function tweenspeed(number)
+local hb = RunService.Heartbeat
+local chr = speaker.Character
+local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
+while tpwalking and chr and hum and hum.Parent do
+local delta = hb:Wait()
+if hum.MoveDirection.Magnitude > 0 then
+
+            if number then
+
+                chr:TranslateBy(hum.MoveDirection * number * delta * 10)
+else
+chr:TranslateBy(hum.MoveDirection * delta * 10)
+end
+end
+end
+end
+
+Tab:AddButton({
+	Name = "+1 speed",
+	Callback = function()
+      		  tpwalking = true
+              tpwalkspeed = tpwalkspeed + 1
+              OrionLib:MakeNotification({
+	Name = "CurrentSpeed",
+	Content = "Your speed is now "..tpwalkspeed,
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+              tweenspeed(1)
+  	
+      end    
+})
+
+
+
+
+
+Tab:AddButton({
+	Name = "resetspeed",
+	Callback = function()
+      		  OrionLib:MakeNotification({
+	Name = "CurrentSpeed",
+	Content = "Your speed is now 1",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+                tpwalkspeed = 1
+                tpwalking = false
+              
+  	end    
+})
+
+
+local Section = Tab:AddSection({
+	Name = "Dont reccomend going over 40 speed"
+})
+
+
+
+
+
